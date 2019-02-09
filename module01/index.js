@@ -1,27 +1,27 @@
-const express = require('express');
-const nunjucks = require('nunjucks');
-const path = require('path');
-const bodyParser = require('body-parser');
+const express = require("express")
 
 const app = express();
 
-nunjucks.configure('views', {
-  autoescape: true,
-  express: app,
+const logMiddleware = (req, res, next) => {
+  console.log(
+    `HOST: ${req.headers.host} | URL: ${req.url} | METHOD: ${req.method}`
+  );
+
+  req.appName = 'goNode';
+
+  return next();
+}
+
+app.use(logMiddleware)
+
+app.get("/", (req, res) => {
+  return res.send(`Bem-vindo ao ${req.appName}, ${req.query.name}`);
 });
 
-app.set('view engine', 'njk');
-app.set('views', path.join(__dirname, 'views'));
-
-app.use(bodyParser.urlencoded({ extended: false }));
-
-app.get('/', (req, res) => {
-  res.render('index', { name: 'Pedro Henrique' });
-});
-
-app.post('/auth', (req, res) => {
-  console.log(req.body);
-  res.send();
+app.get("/nome/:name", (req, res) => {
+  return res.json({
+    message: `Bem-vindo, ${req.params.name}`
+  });
 });
 
 app.listen(3000);
