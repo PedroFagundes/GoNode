@@ -1,0 +1,16 @@
+{% for appointment in appointments %}
+  <div class="provider">
+    <div>
+      <strong>{{ appointment.user.name }}<br>
+      {{ appointment.date | date("HH:mm") }}</strong>
+    </div>
+  </div>
+{% endfor %}
+
+{% if not appointments.length %}
+  <div class="provider">
+    <div>
+      Nenhum agendamento para hoje esta data
+    </div>
+  </div>
+{% endif %}

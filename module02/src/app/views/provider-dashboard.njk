@@ -1,7 +1,7 @@
 {% extends "_layouts/default.njk" %}
 {% block body %}
   <div class="content">
-    <strong>Agendando horário</strong>
+    <strong>Seus horarios</strong>
 
     <div class="provider">
       <div>
@@ -13,11 +13,9 @@
     <form action="/app/appointments/new/{{ provider.id }}" method="POST">
       <input type="text" class="flatpickr" placeholder="Escolha uma data">
 
-      <div id="hours"></div>
+      <div id="appointments"></div>
 
-      <button type="submit">Agendar</button>
-
-      <a href="/app/dashboard" class="btn"> Voltar</a>
+      <a href="/app/logout" class="logout"> Sair</a>
     </form>
   </div>
 
@@ -26,9 +24,9 @@
       minDate: new Date(),
       dateFormat: 'd/m/Y',
       onChange: function (date) {
-        fetch(`/app/available/{{ provider.id }}?date=${date[0].getTime()}`).then(function (response) {
+        fetch(`/app/appointments/{{ provider.id }}?date=${date[0].getTime()}`).then(function (response) {
           response.text().then(function (html) {
-            document.getElementById('hours').innerHTML = html
+            document.getElementById('appointments').innerHTML = html
           })
         })
       }

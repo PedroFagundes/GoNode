@@ -6,10 +6,19 @@ class UserController {
   }
 
   async store (req, res) {
-    const { filename: avatar } = req.file
+    if (req.file) {
+      const { filename: avatar } = req.file
+      await User.create({ ...req.body, avatar })
+    } else {
+      const userExists = await User.count({ where: { email: req.body.email } })
+      if (userExists) {
+        req.flash('error', 'Usuário com este email ja existe!')
+        return res.redirect('/')
+      }
+      await User.create({ ...req.body })
+    }
 
-    await User.create({ ...req.body, avatar })
-
+    req.flash('success', 'Usuário criado com sucesso!')
     return res.redirect('/')
   }
 }

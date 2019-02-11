@@ -8,7 +8,7 @@
       {% for provider in providers %}
         <li class="provider">
           <div>
-            <img src="/files/{{ provider.avatar }}" />
+            <img src="{% if provider.avatar %}/files/{{ provider.avatar }}{% else %}/images/avatar.svg{% endif %}" />
             <strong>{{ provider.name }}</strong>
           </div>
           <a href="/app/appointments/new/{{ provider.id }}">+</a>
