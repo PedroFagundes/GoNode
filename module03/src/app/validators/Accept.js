@@ -1,9 +1,8 @@
 const Joi = require('joi')
 
 module.exports = {
-  body: {
+  req: {
     ad: Joi.string().required(),
-    content: Joi.string().required(),
-    buyer: Joi.string()
+    purchase: Joi.string().required()
   }
 }
